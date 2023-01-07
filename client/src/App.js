@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     const initClient = () => {
       gapi.client.init({
-        clientId: "118212268368-jik2eo2mm45pp3d6joshclefsuctkvkp.apps.googleusercontent.com",
+        clientId: "118212268368-map8sg99m2gmhc8ur1f2btiv8vifa340.apps.googleusercontent.com",
         scope: ''
       });
     };
