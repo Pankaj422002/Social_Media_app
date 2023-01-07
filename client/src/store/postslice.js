@@ -5,38 +5,39 @@ const { createSlice } = require('@reduxjs/toolkit');
 
 const postslice = createSlice({
     name: 'product',
-    initialState: {isLoading: true, posts: []},
+    initialState: { isLoading: true, posts: [] },
     reducers: {
-        startLoading(state,action){
-            return { ...state, isLoading: true};
+        startLoading(state, action) {
+            return { ...state, isLoading: true };
         },
-        endLoading(state,action){
-            return { ...state, isLoading: false};
+        endLoading(state, action) {
+            return { ...state, isLoading: false };
         },
         addALLPosts(state, action) {
-            return {...state, 
-                    posts: action.payload.data,
-                    currentPage: action.payload.currentPage,
-                    numberOfPages: action.payload.numberOfPages,    
-                };
+            return {
+                ...state,
+                posts: action.payload.data,
+                currentPage: action.payload.currentPage,
+                numberOfPages: action.payload.numberOfPages,
+            };
         },
-        fetchPostsBySearchInstore(state,action){
-            return {...state , posts: action.payload } 
+        fetchPostsBySearchInstore(state, action) {
+            return { ...state, posts: action.payload }
         },
-        addPostToStore(state,action){
-            return {...state , posts: [...state.posts, action.payload] };
+        addPostToStore(state, action) {
+            return { ...state, posts: [...state.posts, action.payload] };
         },
-        addSinglePost(state,action){
-            return {...state , post: action.payload };
+        addSinglePost(state, action) {
+            return { ...state, post: action.payload };
         },
-        updatePostToStore(state,action){
-            return {...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post))};
+        updatePostToStore(state, action) {
+            return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
         },
         removePost(state, action) {
-            return {...state, posts: state.posts.filter((post)=> post._id !== action.payload )};
+            return { ...state, posts: state.posts.filter((post) => post._id !== action.payload) };
         },
-        likePostUpdateInStore(state,action){
-            return {...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post))};
+        likePostUpdateInStore(state, action) {
+            return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
         }
     },
 
@@ -66,11 +67,12 @@ export function getPost(page) {
         try {
             dispatch(startLoading());
             const { data } = await api.fetchPosts(page);
+            console.log("data is: ", data);
             dispatch(addALLPosts(data));
             dispatch(endLoading());
         } catch (err) {
-            alert("page is: ",page);
-            console.log("page is: ",page);
+            alert("page is: ", page);
+            console.log("page is: ", page);
             console.log("error in getPost ", err);
         }
     };
@@ -82,7 +84,7 @@ export function getPostsBySearch(searchQuery) {
     return async function getPostThunk(dispatch, getState) {
         try {
             dispatch(startLoading());
-            const { data : {data} } = await api.fetchPostsBySearch(searchQuery);
+            const { data: { data } } = await api.fetchPostsBySearch(searchQuery);
 
 
             dispatch(fetchPostsBySearchInstore(data));
@@ -97,7 +99,7 @@ export function getPostsBySearch(searchQuery) {
 }
 
 
-export function addPost(postData,history) {
+export function addPost(postData, history) {
     return async function addPostThunk(dispatch, getState) {
         try {
             const { data } = await api.createPost(postData);
@@ -109,7 +111,7 @@ export function addPost(postData,history) {
     };
 }
 
-export function updatePost(currentId, postData){
+export function updatePost(currentId, postData) {
     return async function updatePostThunk(dispatch, getState) {
         try {
             const { data } = await api.updatePost(currentId, postData);
@@ -120,26 +122,26 @@ export function updatePost(currentId, postData){
     };
 }
 
-export function deletePost(Id){
+export function deletePost(Id) {
     return async function deletePostThunk(dispatch, getState) {
         try {
             await api.deletePostInapi(Id);
             dispatch(removePost(Id));
-        
+
         } catch (err) {
             console.log("error in updatePost ", err);
         }
     };
 }
 
-export function likePost(Id){
-    return async function likePostThunk(dispatch,getState){
-        try{
+export function likePost(Id) {
+    return async function likePostThunk(dispatch, getState) {
+        try {
 
-            const {data}= await api.likePostInapi(Id);
+            const { data } = await api.likePostInapi(Id);
             dispatch(likePostUpdateInStore(data));
 
-        }catch(err){
+        } catch (err) {
             console.log("error in likePost is : ", err);
         }
     }
