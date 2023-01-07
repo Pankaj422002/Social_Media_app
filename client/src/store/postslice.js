@@ -67,12 +67,9 @@ export function getPost(page) {
         try {
             dispatch(startLoading());
             const { data } = await api.fetchPosts(page);
-            console.log("data is: ", data);
             dispatch(addALLPosts(data));
             dispatch(endLoading());
         } catch (err) {
-            alert("page is: ", page);
-            console.log("page is: ", page);
             console.log("error in getPost ", err);
         }
     };

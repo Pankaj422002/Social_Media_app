@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 
 const Posts = ({ setCurrentId }) => {
-    const { isLoading, posts  } = useSelector((state) => state.posts) // []=>[{posts:[],currentPage: , numberOfPages: }]
+    const { isLoading, posts } = useSelector((state) => state.posts) // []=>[{posts:[],currentPage: , numberOfPages: }]
     const classes = useStyles();
 
     if (!posts.length && !isLoading) return 'No posts';
