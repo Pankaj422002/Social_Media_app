@@ -69,6 +69,8 @@ export function getPost(page) {
             dispatch(addALLPosts(data));
             dispatch(endLoading());
         } catch (err) {
+            alert("page is: ",page);
+            console.log("page is: ",page);
             console.log("error in getPost ", err);
         }
     };
